@@ -1,3 +1,4 @@
+// Decorate 观察者模式
 class p {
   constructor(name) {
     this.name = name;
