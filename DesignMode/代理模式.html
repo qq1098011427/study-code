@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      class CreateImg {
+        constructor() {
+          this.img = document.createElement("img");
+          document.body.appendChild(this.img);
+        }
+        setSrc(src) {
+          this.img.src = src;
+          this.img.width = '800'
+          this.img.height = '560'
+        }
+      }
+
+      function proxyImg(src) {
+        let img = new CreateImg();
+        img.setSrc("./loading.jpg");
+        let load = new Image();
+        load.src = src;
+        load.onload = () => {
+          img.setSrc(src);
+        };
+      }
+
+      proxyImg('./worldDangerous.png');
+
+      let obj = {
+        a: 'a',
+        b: 'b'
+      }
+      let o = new Proxy(obj, {
+        get (target, key, val) {
+          console.log('get', target, key, val)
+        },
+        set (target, key, val) {
+          console.log('set', target, key, val)
+        }
+      })
+      o.b = 'bb'
+    </script>
+  </body>
+</html>
