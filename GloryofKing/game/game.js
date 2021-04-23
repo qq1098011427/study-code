@@ -6,6 +6,7 @@ export default class Game extends Event{
         this.player = null;
     }
     login(name){
+        console.log(typeof this);
         this.addEvent('init', (hero) => {
             console.log(hero + '登录初始化')
         })

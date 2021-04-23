@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- <message-box
+        title="我的标题"
+        content="我的内容"
+        dragable="false"
+    ></message-box> -->
+    <button>点击</button>
+</body>
+<script type="module">
+import Dialog from  './dialog.js';
+let dialog = new Dialog({
+    dragable:true
+})
+document.querySelector("button").onclick = function(){
+    dialog.open();
+}
+let messagebox = document.querySelector("message-box");
+messagebox.addEventListener("cancel",function(){
+    console.log("点击了取消");
+})
+
+messagebox.addEventListener("success",function(e){
+    console.log(e.detail.content);
+})
+</script>
+</html>
