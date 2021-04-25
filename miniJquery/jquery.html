@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./myjq.js"></script>
+    <style>
+        .box1 {
+            background: red;
+        }
+
+        .box2 {
+            background: yellow;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>自己的jqs</h1>
+    <button>按钮1</button>
+    <button>按钮2</button>
+    <!-- <div class="box1">div1</div>
+    <div class="box2">div2</div> -->
+</body>
+<script>
+    $('button').click(() => {
+        console.log('点击了按钮1')
+    })
+    // $(document.querySelector("button")).click(() => {
+    //     console.log(123);
+    // })
+    // $(document.querySelectorAll("button")).click(() => {
+    //     console.log(123);
+    // })
+    // $(function() {
+    //     console.log('DomcontentLoaded事件触发')
+    // })
+    // $('button').on('mousedown mouseup', () => {
+    //    console.log('我压下了按钮')
+    //    console.log('我抬起了按钮')
+    // })
+
+</script>
+
+</html>
