@@ -11,7 +11,7 @@ class Jquery {
         if (typeof arg === 'string') {
             this[addNodes](document.querySelectorAll(arg))
         }
-        if (typeof arg === 'object') { // document.querySelector这种形式
+        if (typeof arg === 'object') { // document.querySelector这种形式(节点)
             if (arg.length === undefined) {
                 this[0] = arg
                 this.length = 1
@@ -64,11 +64,20 @@ class Jquery {
         }
     }
     [getStyle](ele, styleName) {
+        // cssHooks的get方法
+        if ((styleName in $.cssHooks)) {
+            $.cssHooks[styleName].get(ele)
+        }
         return getComputedStyle(ele, null)[styleName]
     }
     [setStyle](ele, styleName, styleValue) {
+        // cssNumber配置表里有的不用加 'px' 单位
         if (typeof styleValue === 'number' && !(styleName in $.cssNumber)) {
             styleValue = styleValue + 'px'
+        }
+        // cssHooks的set方法
+        if ((styleName in $.cssHooks)) {
+            $.cssHooks[styleName].set(ele, styleValue)
         }
         ele.style[styleName] = styleValue
     }
@@ -99,4 +108,7 @@ $.cssNumber = {
     widows: true,
     zIndex: true,
     zoom: true
+}
+$.cssHooks = {
+    wh: false
 }
