@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .box{
+            width: 100px;
+            height: 100px;
+            background: red;
+            position:absolute;
+            left: 0px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="box"></div>
+</body>
+<script>
+// 类EventTarget -> 实例化eventObj -> 监听.addEventListener -> 触发-> dispatchEvent
+let eventObj = new EventTarget();
+let num = 1;
+function move(ele,dir,target){
+let start = parseInt( getComputedStyle(ele,null)[dir]);
+    let speed = 2*(target-start)>=0?1:-1;
+    setTimeout(() => {
+        start += speed;
+        ele.style[dir] = start + "px";
+        if(Math.abs(start-target)<5){
+            eventObj.dispatchEvent(new CustomEvent("myevent"+num));
+            num++;
+        }else{
+            move(ele,dir,target);  
+        }
+    }, 10);
+}
+let ele =  document.querySelector(".box");
+move(ele,'left',300);
+eventObj.addEventListener("myevent1",()=>{
+    console.log("运动完成1");
+    move(ele,'top',300);
+});
+eventObj.addEventListener("myevent2",()=>{
+    console.log("运动完成2");
+    move(ele,'left',0);
+})
+eventObj.addEventListener("myevent3",()=>{
+    console.log("运动完成3");
+    move(ele,'top',0);
+})
+eventObj.addEventListener("myevent4",()=>{
+    console.log("运动完成4");
+})
+
+
+
+</script>
+</html>
