@@ -89,11 +89,24 @@
 
     // const p5 = Promisem.allSettled([p1, p2])
 
-    const p6 = p2.finally(() => {
-      console.log('无论成功失败我都进行')
-    })
+    // const p6 = p2.finally(() => {
+    //   console.log('无论成功失败我都进行')
+    // })
+    Promise.prototype.catchm = function (cb) {
+      return this.then(undefined, cb)
+    }
+    Promise.prototype.finallym = function (cb) {
+      this.then(cb, cb)
+      return this
+    }
+    console.dir(Promise);
+    // const p3 = p2.catch(err=> { console.log(err, 'err11'); })
+    // const p4 = p2.catchm(err=> { console.log(err, 'err11'); })
+    const p3 = p2.finally(()=> { console.log('不管我在哪里我都进行'); })
+    const p4 = p2.finallym(()=> { console.log('不管我在哪里我都进行'); })
     setTimeout(()=> {
-        console.log(p6);
+        console.log(p3);
+        console.log(p4);
       }, 300)
   </script>
 </body>
