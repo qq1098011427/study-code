@@ -9,13 +9,71 @@
 <body>
   <script src="./Promise.js"></script>
   <script>
+
     const p = new Promisem((resolve,reject) => {
-      console.log(resolve, 'resolve');
-      console.log(reject, 'reject');
-      resolve('success')
-      reject('error')
+      // setTimeout(() => {
+      //   resolve('success1')
+      //   resolve('success2')
+      //   // reject('error1')
+      //   // reject('error2')
+      // }, 200)
+      // resolve('success1')
+      reject('error2')
     }) 
-    console.log(p, 'p')
+    // const p1 = p.then(res => console.log(res), err=> console.log(err, 'err'))
+
+    // 多个then
+    // p.then(res => {
+    //   console.log(res, 1)
+    // }, err => {
+    //   console.log(err, 1)
+    // })
+    // p.then(res => {
+    //   console.log(res, 2)
+    // }, err => {
+    //   console.log(err, 2)
+    // })
+
+    // 链式 返回全新的Promise
+    // let p1 = p.then(res => {
+    //   console.log(res, '2')
+    //   return new Promisem((resolve, reject) => {
+    //     resolve('我是res2之后要打印的东西')
+    //   })
+    // }, err => {
+    //   console.log(err, '2')
+    //   return new Promisem((resolve, reject) => {
+    //     resolve('我是res2之后要打印的东西')
+    //   })
+    // }).then(res => console.log(res, 'res1111'), err => console.log(err, 'err111'))
+
+    // static
+    // const p1 = Promisem.resolve(1).then(res => {
+    //   console.log(res)
+    // })
+    // const p1 = Promisem.reject(2).then(res=> { return 3 }).catch(err => console.log('捕获', err))
+    // const p1 = new Promisem((resolve, reject) => {
+    //   setTimeout(()=> {
+    //     resolve(1)
+    //   }, 200)
+    // })
+    const p2 = new Promise((resolve, reject) => {
+      setTimeout(()=> {
+        reject(2)
+      }, 100)
+    }).then(res => {})
+    // const p3 = Promisem.race([p1, p2])
+
+    // const p4 = Promisem.all([p1, p2])
+
+    // const p5 = Promisem.allSettled([p1, p2])
+
+    const p6 = p2.finally(() => {
+      console.log('无论成功失败我都进行')
+    })
+    setTimeout(()=> {
+        console.log(p6);
+      }, 300)
   </script>
 </body>
 </html>
