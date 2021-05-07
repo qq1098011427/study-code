@@ -9,6 +9,27 @@
 <body>
   <script src="./Promise.js"></script>
   <script>
+    // 宏任务微任务的区分
+    // [ ...] [ ...] [ ...] []代表宏任务，...代表微任务， 先执行宏任务，然后宏任务里的微任务，再执行宏任务以此循环
+    // 宏任务可以理解为queue, 先进先执行  （script,  setTimeout）， 存在误差，因为队列要等待
+    // 微任务可以理解为stack, 可以插对，后进先执行这样无误差，  （promise, MutationObserver）
+    // console.log(1)
+    // setTimeout(()=> {
+    //   console.log(5)
+    // })
+    // const p = new Promisem((resolve,reject) => {
+    //   // resolve('成功了')
+    //   console.log(2)
+    //   reject('err')
+    // })
+    // p.then(res => {
+    //   console.log(4)
+    //   console.log(res, '结果');
+    // }, err => {
+    //   console.log(4)
+    //   console.log(err, '错误');
+    // })
+    // console.log(3, '同步')
 
     const p = new Promisem((resolve,reject) => {
       // setTimeout(() => {
@@ -22,7 +43,7 @@
     }) 
     // const p1 = p.then(res => console.log(res), err=> console.log(err, 'err'))
 
-    // 多个then
+    // 多个then 扔进队列 循环调用
     // p.then(res => {
     //   console.log(res, 1)
     // }, err => {
