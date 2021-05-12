@@ -28,7 +28,7 @@
   // 如何知道数据改变？ (数据劫持) Object.defineProperty(obj, key, {})
   // 数据改变如何影响试图 (观察者模式、发布订阅) Dep \ Watcher
   setTimeout(() => {
-    vm._data.message = '<h5>wo shi 数据</h5>'
+    vm._data.message = '<h5>数据改变了</h5>'
     console.log(vm._data);
   })
 </script>

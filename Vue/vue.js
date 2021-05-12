@@ -2,29 +2,45 @@ class Vue {
   constructor(opts) {
     this.$options = opts
     this.observe(opts.data)
-    this._data = opts.data
+    // this._data = opts.data
     this.compile()
   }
   observe(data) {
-    let keys = Object.keys(data)
-    keys.forEach(key => {
-      let val = data[key]
-      const dep = new Dep() // 一个Key对应 一个收集器
-      Object.defineProperty(data, key, {
-        configurable: true,
-        enumerable: true,
-        get () {
-          if (Dep.target) { // 类的静态属性
-            dep.addSub(Dep.target)
+    // let keys = Object.keys(data)
+    // keys.forEach(key => {
+    //   let val = data[key]
+    //   const dep = new Dep() // 一个Key对应 一个收集器
+    //   Object.defineProperty(data, key, {
+    //     configurable: true,
+    //     enumerable: true,
+    //     get () {
+    //       if (Dep.target) { // 类的静态属性
+    //         dep.addSub(Dep.target)
+    //       }
+    //       return val
+    //     },
+    //     set (newValue) {
+    //       // data[key] = newValue; // 同等于无限进入set
+    //       dep.notify(newValue)
+    //       val = newValue
+    //     }
+    //   })
+    // })
+    let map = new Map();
+    this._data = new Proxy(data, {
+      get(target, key) {
+        if (Dep.target) { // 类的静态属性
+          if (!map.has(key)) {
+            map.set(key, new Dep())
           }
-          return val
-        },
-        set (newValue) {
-          // data[key] = newValue; // 同等于无限进入set
-          dep.notify(newValue)
-          val = newValue
+          map.get(key).addSub(Dep.target)
         }
-      })
+        return Reflect.get(target, key)
+      },
+      set(target, key, newValue) {
+        map.get(key).notify(newValue)
+        return Reflect.set(target, key, newValue)
+      }
     })
   }
   compile() {
@@ -35,9 +51,9 @@ class Vue {
     node.childNodes.forEach(node => {
       if (node.nodeType === 1) {
         // 元素节点
-        console.log(node.attributes);
+        // console.log(node.attributes);
         [...node.attributes].forEach(attr => {
-          console.log(attr);
+          // console.log(attr);
           let attrName = attr.name
           let attrValue = attr.value
           if (attrName === 'v-model') {

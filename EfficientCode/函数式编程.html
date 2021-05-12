@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    // Array.prototype.forEach = function (callback) {
+    //   for (let i = 0; i <= this.length - 1; i++) {
+    //     callback(this[i])
+    //   }
+    // }
+    // Array.prototype.map = function (callback) {
+    //   let arr = []
+    //   console.log('domy');
+    //   for (let i = 0; i <= this.length - 1; i++) {
+    //     arr.push(callback(this[i]))
+    //   }
+    //   return arr
+    // }
+    // Array.prototype.filter = function (callback) {
+    //   let arr = []
+    //   console.log('domy');
+    //   for (let i = 0; i <= this.length - 1; i++) {
+    //     if (callback(this[i])) {
+    //       arr.push(this[i])
+    //     }
+    //   }
+    //   return arr
+    // }
+    let arr = [{
+      a: 1
+    }, {
+      a: 2
+    }]
+    // arr.forEach(item => item.a = item.a + 1)
+    // arr = arr.map(item => item.a + 1)
+    // arr = arr.filter(item => item.a > 1)
+    // console.log(arr, 'arr');
+    // const once = (fn) => {
+    //   let done = false 
+    //   return (...args) => {
+    //     if (!done) {
+    //       done = true
+    //       fn(args)
+    //     } else {
+    //       return
+    //       console.log('只能执行一次哦');
+    //     }
+    //   }
+    // }
+    // function done (name) {
+    //   console.log('Done', name) 
+    // }
+    // let f = once(done)
+    // f('你', '你哥')
+    // f('他')
+    // f('他')
+   
+    // curry 柯里化是把一个多参数函数转化成一个嵌套的一元函数的过程
+    // abc(1)(2)(3) = 6
+    // const fn = (a, b, c) => a+b+c
+    // // const curry = (fn) => {
+    // //   return (p1) => {
+    // //     return (p2) => {
+    // //       return (p3) => {
+    // //         return fn(p1, p2, p3)
+    // //       }
+    // //     }
+    // //   }
+    // // }
+    // const curry = (fn) => {
+    //   const curryFn = (...args) => {
+    //     if (args.length < fn.length) { // 当前参数少于fn得参数数量
+    //       return (...argsn) => { // 返回回调，argsn接受新得参数数组
+    //         return curryFn(...args, ...argsn) // 将参数叠加
+    //       }
+    //     } else {
+    //       return fn(...args)
+    //     }
+    //   }
+    //   return curryFn
+    // }
+    // const abc = curry(fn)
+    // console.log(abc(1, 2)(3), 'abc');
+    // console.log(abc(1)(2)(3));
+    // console.log(fn(1,2,3))
+//   function afn(a){
+//     return a*2;
+// }
+// function bfn(b){
+//     return b*3;
+// }
+// const compose = (a,b)=>c=>a(b(c));
+// const compose = (a,b) => {
+//   return c => {
+//     return a(b(c))
+//   }
+// }
+// composition 从左至右 pipe 右至左
+const compose = (...fns)=>val=>fns.reverse().reduce((acc,fn)=>{
+  // console.log(acc, 'acc', fn, 'fn');
+  return fn(acc)
+},val);
+let str = "大家好。我是中国人。我爱中国。我们同住地球村。";
+const sentenceNum = str=>str.match(/。/g);
+const countFn = arr=>arr.length;
+const oddOrEven = num=>num%2===0?"偶数":"奇数";
+const myfn = compose(oddOrEven,countFn,sentenceNum)
+console.log(myfn(str));
+// let myfn = compose(afn,bfn);
+// console.log(myfn(2));  
+  </script>
+</body>
+</html>
