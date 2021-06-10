@@ -44,11 +44,14 @@ function co(fn) {
     let f = fn();
     const next = (ret) => {
         let result = f.next()
+        console.log('result: ', result);
         if (!result.done) {
             result.value.then(res => {
                 console.log(res, 'res', ret, 'ret');
                 next(res)
             })
+        } else {
+            return result.value
         }
     }
     next()
