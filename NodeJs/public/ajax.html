@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<input>
+  <input type="file" class="input"></input>
+  进度<progress value="0" max="100"></progress><span class="percent">0%</span>
+  速度<span class="speed">20b/s</span>
+  <button class="upload">点击上传</button>
+  <button class="abort">取消上传</button>
+
+  <script>
+    let xhr = new XMLHttpRequest()
+    let startTime, startLoaded;
+
+    document.querySelector('.upload').addEventListener('click', ()=> {
+      let file = document.querySelector('.input').files[0]
+      let form = new FormData()
+      form.append('file', file)
+      
+      file && xhr.open('post', '/fileUpload', true)
+
+        xhr.onload = () => {
+          console.log(xhr.responseText);
+          console.log('服务器响应成功，最后一步');
+        }
+
+        xhr.upload.onloadstart = () => {
+          console.log('开始上传');
+          startTime = new Date().getTime()
+          startLoaded = 0
+        }
+        // 每隔差不多100ms
+        xhr.upload.onprogress = (evt) => {
+          // 结束时间
+          let endTime = new Date().getTime()
+          // 时间差
+          let difTime = (endTime - startTime) / 1000
+          // 当前Progress里上传的文件大小
+          let difLoaded = evt.loaded - startLoaded
+          // 单位时间内的速度
+          let speed = difLoaded / difTime
+          let unit = 'b/s'
+          // 重新赋值
+          startTime = new Date().getTime()
+          startLoaded = evt.loaded
+          // 处理单位
+          if (speed/1024 > 1) { unit = 'kb/s', speed = speed/1024 }
+          if (speed/1024 > 1) { unit = 'mb/s', speed = speed/1024 }
+          document.querySelector('.speed').innerHTML = speed.toFixed(2) + unit
+          // 当前进度 (evt.total  文件总大小)
+          let percent = (evt.loaded / evt.total * 100).toFixed(0)
+          document.querySelector('progress').value = percent
+          document.querySelector('.percent').innerHTML = percent + '%'
+        }
+        // 如果中途取消 不会调用
+        xhr.upload.onload = () => {
+          console.log('start 与 end 之间');
+        }
+        // 如果中途取消 会调用
+        xhr.upload.onloadend = () => {
+          console.log('上传完成');
+        }
+        // 中断请求 但是服务器依旧收到本次请求
+        xhr.upload.onabort = () => {
+          console.log('取消');
+        }
+
+        xhr.send(form)
+    })
+
+    document.querySelector('.abort').onclick = () => {
+      xhr.abort()
+    }
+  </script>
+</body>
+</html>
